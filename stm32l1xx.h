@@ -68,7 +68,7 @@
 
 #if !defined (STM32L1XX_MD) && !defined (STM32L1XX_MDP) && !defined (STM32L1XX_HD) && !defined (STM32L1XX_XL)
 
-/* #define STM32L1XX_MD  */   /*!< - Ultra Low Power Medium-density devices: STM32L151x6xx, STM32L151x8xx,
+#define STM32L1XX_MD     /*!< - Ultra Low Power Medium-density devices: STM32L151x6xx, STM32L151x8xx,
                                      STM32L151xBxx, STM32L152x6xx, STM32L152x8xx, STM32L152xBxx,
                                      STM32L151x6xxA, STM32L151x8xxA, STM32L151xBxxA, STM32L152x6xxA,
                                      STM32L152x8xxA and STM32L152xBxxA.

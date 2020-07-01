@@ -1,14 +1,13 @@
 #include "stm32l1xx.h"
-#include "stm32l1xx_rcc.h"
-#include "stm32l1xx_gpio.h"
-#define GPIOB    ((GPIO_TypeDef *) GPIOB_BASE)
+#include "nc_stm32l1_gpio.h"
+//#include "stm32l1xx_rcc.h"
 
 int main(void){
-
     GPIO_InitTypeDef GPIO_InitDef;
-    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
- 
-    GPIO_InitDef.GPIO_Pin = GPIO_Pin_6;
+    //RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
+	  RCC->AHBENR |= RCC_AHBENR_GPIOBEN;	//RCC->AHBENR	|= 0x00000002;
+
+	  GPIO_InitDef.GPIO_Pin = GPIO_Pin_6;
     GPIO_InitDef.GPIO_Mode = GPIO_Mode_OUT;
     GPIO_InitDef.GPIO_OType = GPIO_OType_PP;
     GPIO_InitDef.GPIO_PuPd = GPIO_PuPd_NOPULL;
@@ -16,7 +15,8 @@ int main(void){
     //Initialize pins
     GPIO_Init(GPIOB, &GPIO_InitDef);
  
-    RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
+    //RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
+		RCC->AHBENR |= RCC_AHBENR_GPIOAEN;	//RCC->AHBENR	|= 0x00000001;
  
     GPIO_InitDef.GPIO_Pin = GPIO_Pin_0;
     GPIO_InitDef.GPIO_Mode = GPIO_Mode_IN;
@@ -27,10 +27,10 @@ int main(void){
     GPIO_Init(GPIOA, &GPIO_InitDef);
  
     while(1){
-        if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0)) {
+        if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0)){
             GPIO_SetBits(GPIOB, GPIO_Pin_6);
-        } else {
+        } else{
             GPIO_ResetBits(GPIOB, GPIO_Pin_6);
         }
-    }
+    }  
 }
