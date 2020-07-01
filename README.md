@@ -2,6 +2,8 @@
 
 Let's Blink an LED Using Standard Peripheral Library!	June 30, 2020
 
+I appreciate comments. Shoot me an email at noel_s_cruz@yahoo.com!
+
 Earlier, I showed you how to toggle or blink an LED using ARM assembly. We went through
 motions of meticulous register programming from dealing with absolute hex numbers, 
 using mnenomics like assembly EQU and C defines, and reading/writing to registers in C
@@ -383,6 +385,8 @@ int main(void){
     }
     
 }
+
+I appreciate comments. Shoot me an email at noel_s_cruz@yahoo.com!
 
 Don't forget the newline and happy coding!
 
