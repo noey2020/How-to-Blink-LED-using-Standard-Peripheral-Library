@@ -235,3 +235,78 @@ int main(void){
     
 }
 
+Experiment Results from first Draft:
+
+1) The order of includes should be #include "nc_stm32l1_gpio.h" then
+   #include "stm32l1xx_rcc.h". Otherwise, you will get implicit declaration errors.
+2) I had to uncomment line 71 #define STM32L1XX_MD of stm32l1xx.h. stm32l1xx.h is 
+   different in every version so caveat.
+3) I wrote my own bare nc_stm32l1_gpio.h and nc_stm32l1_gpio.c files. Reused, in other
+   words, leveraged proven, mature code but maintain compatibility with HAL and SPL.
+4) Read and complied with GNU GPL v3 license.
+5) The new,tested working blink_led_spl.c code is shown below.
+
+#include "stm32l1xx.h"
+
+#include "nc_stm32l1_gpio.h"
+
+//#include "stm32l1xx_rcc.h"
+
+int main(void){
+
+    GPIO_InitTypeDef GPIO_InitDef;
+    
+    //RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
+    
+	  RCC->AHBENR |= RCC_AHBENR_GPIOBEN;	//RCC->AHBENR	|= 0x00000002;
+
+	  GPIO_InitDef.GPIO_Pin = GPIO_Pin_6;
+      
+    GPIO_InitDef.GPIO_Mode = GPIO_Mode_OUT;
+    
+    GPIO_InitDef.GPIO_OType = GPIO_OType_PP;
+    
+    GPIO_InitDef.GPIO_PuPd = GPIO_PuPd_NOPULL;
+    
+    GPIO_InitDef.GPIO_Speed = GPIO_Speed_40MHz;
+    
+    //Initialize pins
+    
+    GPIO_Init(GPIOB, &GPIO_InitDef);
+ 
+    //RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
+    
+		RCC->AHBENR |= RCC_AHBENR_GPIOAEN;	//RCC->AHBENR	|= 0x00000001;
+ 
+    GPIO_InitDef.GPIO_Pin = GPIO_Pin_0;
+    
+    GPIO_InitDef.GPIO_Mode = GPIO_Mode_IN;
+    
+    GPIO_InitDef.GPIO_OType = GPIO_OType_PP;
+    
+    GPIO_InitDef.GPIO_PuPd = GPIO_PuPd_DOWN;
+    
+    GPIO_InitDef.GPIO_Speed = GPIO_Speed_40MHz;
+    
+    //Initialize pins
+    
+    GPIO_Init(GPIOA, &GPIO_InitDef);
+ 
+    while(1){
+    
+        if (GPIO_ReadInputDataBit(GPIOA, GPIO_Pin_0)){
+        
+            GPIO_SetBits(GPIOB, GPIO_Pin_6);
+            
+        } else{
+        
+            GPIO_ResetBits(GPIOB, GPIO_Pin_6);
+            
+        }
+        
+    }  
+    
+}
+
+Don't forget the newline and happy coding!
+
