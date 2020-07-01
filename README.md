@@ -243,7 +243,9 @@ Experiment Results from first Draft:
    different in every version so caveat.
 3) I wrote my own bare nc_stm32l1_gpio.h and nc_stm32l1_gpio.c files. Reused, in other
    words, leveraged proven, mature code but maintain compatibility with HAL and SPL.
+   See attached files.
 4) Read and complied with GNU GPL v3 license.
+
 5) The new,tested working blink_led_spl.c code is shown below.
 
 #include "stm32l1xx.h"
